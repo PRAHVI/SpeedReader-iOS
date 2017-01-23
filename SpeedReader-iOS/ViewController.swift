@@ -98,8 +98,6 @@ class ViewController: UIViewController {
                 let wordOffset = currentWord + Int(indexOffset)
                 
                 if wordOffset >= 0 && wordOffset < textRange.count {
-                    AudioServicesPlaySystemSound(1520)
-                    
                     let utterance = AVSpeechUtterance(string: textRange[wordOffset])
                     utterance.rate = 0.6
                     utterance.preUtteranceDelay = 0.0
@@ -117,9 +115,13 @@ class ViewController: UIViewController {
                     let rangeInTotalText = NSRange(location: wordPosition, length: textRange[wordOffset].characters.count)
                     highlightRange(rangeInTotalText)
                     
-                    print(textRange[wordOffset])
-                    
                     nextWord = wordOffset
+                    
+                    if traitCollection.forceTouchCapability == .available {
+                        AudioServicesPlaySystemSound(1520)
+                    } else {
+                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                    }
                 }
             }
             previousTranslation = translation
