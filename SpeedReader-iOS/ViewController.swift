@@ -148,6 +148,7 @@ class ViewController: UIViewController {
     }
     
     func highlightRange(_ rangeInTotalText: NSRange) {
+        if rangeInTotalText.location > textView.attributedText!.length { return }
         let currentAttributes = textView.attributedText.attributes(at: rangeInTotalText.location, effectiveRange: nil)
         let fontAttribute: AnyObject? = currentAttributes[NSFontAttributeName] as AnyObject?
         let attributedString = NSMutableAttributedString(string: textView.attributedText.attributedSubstring(from: rangeInTotalText).string)
@@ -170,6 +171,12 @@ class ViewController: UIViewController {
         
         textView.textStorage.endEditing()
         previousSelectedRange = rangeInTotalText
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        if textView.isFirstResponder {
+            textView.resignFirstResponder()
+        }
     }
 }
 
