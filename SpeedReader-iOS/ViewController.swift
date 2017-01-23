@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         get { return true }
     }
     let speechSynthesizer = AVSpeechSynthesizer()
-    let alternateSpeechSynthesizer = AVSpeechSynthesizer()
+    let lastSynthesizer = AVSpeechSynthesizer()
     let wordScrollUnit: CGFloat = 20
     
     override func viewDidLoad() {
@@ -86,9 +86,8 @@ class ViewController: UIViewController {
             self.utteranceTexts = utteranceTexts
         }
     }
-    
     func userDidPanGestureArea(sender:UIPanGestureRecognizer) {
-        if (speechSynthesizer.isSpeaking) { speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate) }
+        if (speechSynthesizer.isSpeaking) { speechSynthesizer.stopSpeaking(at: .immediate) }
         let translation = sender.translation(in: sender.view)
         let textRange = textView.text.components(separatedBy: " ")
         
@@ -102,7 +101,10 @@ class ViewController: UIViewController {
                     utterance.rate = 0.6
                     utterance.preUtteranceDelay = 0.0
                     utterance.postUtteranceDelay = 0.0
-                    AVSpeechSynthesizer().speak(utterance)
+                    if lastSynthesizer.isSpeaking {
+                        lastSynthesizer.stopSpeaking(at: .immediate)
+                    }
+                    lastSynthesizer.speak(utterance)
                     
                     var wordPosition = 0
                     if wordOffset > 0 {
