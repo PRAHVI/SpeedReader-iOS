@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import AudioToolbox.AudioServices
 
 class ViewController: UIViewController {
 
@@ -19,6 +20,7 @@ class ViewController: UIViewController {
     var totalUtterances: Int = 0
     var currentUtterance: Int = 0
     var currentWord: Int = 0
+    var currentIdx: Int = 0
     var previousSelectedRange: NSRange?
     var utteranceTexts: [String]?
     var previousTranslation = CGPoint(x: 0, y: 0)
@@ -46,10 +48,37 @@ class ViewController: UIViewController {
             else { speechSynthesizer.pauseSpeaking(at: AVSpeechBoundary.word) }
         } else {
             let utteranceTexts = textView.text.components(separatedBy: "\n")
-            totalUtterances = utteranceTexts.count
-            currentUtterance = 0
-            currentWord = 0
+            var utteranceIdx = 0
+            var utteranceLength = 0
             for utteranceText in utteranceTexts {
+                let textLength = utteranceText.components(separatedBy: " ").count
+                if utteranceLength + textLength < nextWord {
+                    utteranceLength += textLength
+                    utteranceIdx += 1
+                } else {
+                    break
+                }
+            }
+            
+            totalUtterances = utteranceTexts.count - utteranceIdx
+            currentUtterance = utteranceIdx
+            currentWord = nextWord
+            
+            for idx in utteranceIdx...utteranceTexts.count-1 {
+                var utteranceText = utteranceTexts[idx]
+                if idx == 0 {
+                    let textRange = utteranceText.components(separatedBy: " ")
+                    var wordPosition = 0
+                    if nextWord > 0 {
+                        for idx in 0...nextWord-1 {
+                            wordPosition += textRange[idx].characters.count
+                        }
+                    }
+                    wordPosition += nextWord
+                    let startIndex = utteranceText.index(utteranceText.startIndex, offsetBy: wordPosition)
+                    utteranceText = utteranceText.substring(from: startIndex)
+                    currentIdx = wordPosition
+                }
                 let utterance = AVSpeechUtterance(string: utteranceText)
                 
                 speechSynthesizer.speak(utterance)
@@ -69,6 +98,8 @@ class ViewController: UIViewController {
                 let wordOffset = currentWord + Int(indexOffset)
                 
                 if wordOffset >= 0 && wordOffset < textRange.count {
+                    AudioServicesPlaySystemSound(1520)
+                    
                     let utterance = AVSpeechUtterance(string: textRange[wordOffset])
                     utterance.rate = 0.6
                     utterance.preUtteranceDelay = 0.0
@@ -148,11 +179,10 @@ extension ViewController: AVSpeechSynthesizerDelegate {
         }
     }
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        let rangeInTotalText = NSMakeRange(spokenTextLengths + characterRange.location, characterRange.length)
+        let rangeInTotalText = NSMakeRange(spokenTextLengths + characterRange.location + currentIdx, characterRange.length)
         
         currentWord += 1
         textView.selectedRange = rangeInTotalText
-        lastRange = characterRange
         
         highlightRange(rangeInTotalText)
     }

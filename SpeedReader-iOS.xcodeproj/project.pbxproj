@@ -12,6 +12,7 @@
 		122405281E3175D200D25C89 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 122405261E3175D200D25C89 /* Main.storyboard */; };
 		1224052A1E3175D200D25C89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 122405291E3175D200D25C89 /* Assets.xcassets */; };
 		1224052D1E3175D200D25C89 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1224052B1E3175D200D25C89 /* LaunchScreen.storyboard */; };
+		122A30331E3602AB00880592 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122A30321E3602AB00880592 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		122405291E3175D200D25C89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1224052C1E3175D200D25C89 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1224052E1E3175D200D25C89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		122A30321E3602AB00880592 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				122A30331E3602AB00880592 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +43,7 @@
 			children = (
 				122405211E3175D200D25C89 /* SpeedReader-iOS */,
 				122405201E3175D200D25C89 /* Products */,
+				122A30311E3602AB00880592 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +66,14 @@
 				1224052E1E3175D200D25C89 /* Info.plist */,
 			);
 			path = "SpeedReader-iOS";
+			sourceTree = "<group>";
+		};
+		122A30311E3602AB00880592 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				122A30321E3602AB00880592 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,7 +216,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -247,7 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -300,6 +312,7 @@
 				122405331E3175D200D25C89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
